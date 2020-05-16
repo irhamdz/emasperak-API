@@ -1,0 +1,27 @@
+{
+  "name": "emasperak-api",
+  "version": "1.0.0",
+  "description": "A RESTful API that scrapes the logammulia.com to get you today's buy and buyback for emas and perak",
+  "private": true,
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "keywords": [
+    "emas",
+    "perak",
+    "antam",
+    "restful",
+    "api",
+    "nodejs"
+  ],
+  "author": "irhamdz@gmail.com",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2",
+    "cheerio": "^1.0.0-rc.3",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "^4.16.4",
+    "morgan": "~1.9.1"
+  }
+}
