@@ -3,7 +3,7 @@ const router = express.Router();
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-/* GET users listing. */
+/* GET emas listing. */
 router.get('/', (req, res, next) => {
     // handle success
     let url = 'https://www.logammulia.com/id/purchase/gold';
@@ -37,7 +37,7 @@ router.get('/', (req, res, next) => {
                 let label = $(textElement).find('.ngc-text').text().replace(/\t|\n/g, '');
                 let priceText = $(elem).find('.item-2').text().trim().split(' ')[1];
                 data.push({
-                    weigth: label.replace('Hanya di Butik LM', ''),
+                    weigth: parseFloat(label.replace(',', '.').match(/[+-]?\d+(\.\d+)?/g)),
                     priceText: `Rp. ${priceText}`,
                     price: parseInt(priceText.replace(/,/g, ''), 10)
                 })
@@ -47,6 +47,7 @@ router.get('/', (req, res, next) => {
                 dateChanges,
                 priceChangesText,
                 priceChanges,
+                unit: 'gram',
                 data
             }
             res.send(resp);

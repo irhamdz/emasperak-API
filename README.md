@@ -21,6 +21,7 @@ Content-Type: application/json; charset=utf-8
 ---
 
 ### Coming soon
+- [ ] add docs
 - [ ] perak API
 - [ ] emas buyback API
 - [ ] deploy to openshift
