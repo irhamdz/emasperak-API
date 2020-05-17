@@ -6,7 +6,7 @@ A RESTful API that scrapes the https://logammulia.com to get you today's buy and
 1. Clone this repo: `git clone https://github.com/irhamdz/emasperak-API.git`
 2. move to the repo downloaded: `cd emasperak-API`
 2. Install dependencies: `npm install` or in shorthand `npm i`
-3. run the server : `npm start`
+3. run the server : `npm start` or if you want to run in dev mode `npm run dev`
 
 ---
 
@@ -20,11 +20,11 @@ Content-Type: application/json; charset=utf-8
 
 ---
 
-### Coming soon
+### Task
 - [ ] add docs
 - [ ] perak API
 - [ ] emas buyback API
-- [ ] deploy to openshift
+- [ ] deploy to openshift (?)
 - [ ] add mongodb support or firebase (?)
 
 ---

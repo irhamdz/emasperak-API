@@ -39,7 +39,7 @@ router.get('/', (req, res, next) => {
                 data.push({
                     weigth: parseFloat(label.replace(',', '.').match(/[+-]?\d+(\.\d+)?/g)),
                     priceText: `Rp. ${priceText}`,
-                    price: parseInt(priceText.replace(/,/g, ''), 10)
+                    price: parseInt(priceText.replace(/,/g, ''), 10),
                 })
             })
 
