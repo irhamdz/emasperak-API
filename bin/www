@@ -9,7 +9,7 @@ var debug = require('debug')('emasperak-api:server');
 var http = require('http');
 const mongoose = require('mongoose');
 const cron = require('node-cron');
-const emasJob = require('../jobs/saveEmas')
+const saveEmasJob = require('../jobs/saveEmas')
 
 /**
  * Connect to mongoDB Atlas.
@@ -21,8 +21,8 @@ mongoose.connect(mongoAtlasUrl, {
 }).then(() => console.log('MongoDB Connected...')).catch(err => debug(err));
 
 // schedule jobs
-cron.schedule("30 * * * *", function() {
-    emasJob();
+cron.schedule("* * * * *", function() {
+    saveEmasJob();
 });
 
 

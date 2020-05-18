@@ -7,7 +7,7 @@ const EmasPerak = require('../models/emasperak')
 /* GET emas listing. */
 router.get('/', async (req, res, next) => {
     try {
-        const result = await EmasPerak.findOne().sort('-_id');
+        const result = await EmasPerak.findOne({title: 'emas'}, '-_id -__v').sort('-_id')
         res.json(result);
     } catch (err) {
         res.status(500).json({message: err.message})
@@ -19,12 +19,22 @@ router.get('/', async (req, res, next) => {
     //     .then(function (response) {
     //         let html = response.data;
     //         let $ = cheerio.load(html);
-    //         let priceChangesText;
-    //         let priceChanges;
-    //         let date;
-    //         let dateISO;
+    //         let title = 'Emas',
+    //             unit = 'gram',
+    //             priceChangesText,
+    //             priceChanges,
+    //             lastUpdatedDate,
+    //             lastUpdatedDateISO,
+    //             lastPriceText,
+    //             lastPrice
     //         let data = [];
     //         $('.antam-chart .chart-info .ci-child').each((i, elem) => {
+    //             // TODO: this code is for get the last price by lastUpdatedDate
+    //             // if (i === 0) {
+    //             //     priceText = $(elem).find('.value').text().replace(/\t|\n/g, '');
+    //             //     lastPrice = parseInt(priceText.slice(2, -3).replace(/[.]/g, ''))
+    //             // }
+    //
     //             if (i === 1) {
     //                 let plus = $(elem).find('.value').html()
     //                 let plusCheck = $(plus).hasClass('fa-caret-up')
@@ -37,8 +47,8 @@ router.get('/', async (req, res, next) => {
     //                 }
     //             }
     //             if (i === 2) {
-    //                 date = $(elem).find('.value').text().replace(/\t|\n/g, '');
-    //                 dateISO = new Date(`${date} UTC`).toISOString();
+    //                 lastUpdatedDate = $(elem).find('.value').text().replace(/\t|\n/g, '');
+    //                 lastUpdatedDateISO = new Date(`${lastUpdatedDate} UTC`).toISOString();
     //             }
     //         })
     //         $('#purchase .ctr').each((i, elem) => {
@@ -53,12 +63,13 @@ router.get('/', async (req, res, next) => {
     //         })
     //
     //         let resp = {
-    //             date,
-    //             dateISO,
-    //             priceChangesText,
+    //             title,
+    //             unit,
+    //             lastUpdatedDate,
+    //             lastUpdatedDateISO,
+    //             lastPrice,
     //             priceChanges,
-    //             unit: 'gram',
-    //             data
+    //             detail: data
     //         }
     //         res.send(resp);
     //     })

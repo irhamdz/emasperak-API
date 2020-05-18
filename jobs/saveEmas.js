@@ -10,19 +10,27 @@ module.exports = async () => {
         .then(async (response) => {
             let html = response.data;
             let $ = cheerio.load(html);
-            let date, dateISO, priceChangesText, priceChanges, unit = 'gram', weight = 1, priceText, price;
-            // let data = [];
+            let title = 'Emas',
+                unit = 'gram',
+                priceChangesText,
+                priceChanges,
+                lastUpdatedDate,
+                lastUpdatedDateISO,
+                lastPriceText,
+                lastPrice
+            let data = [];
             $('.antam-chart .chart-info .ci-child').each((i, elem) => {
-                if (i === 0) {
-                    priceText = $(elem).find('.value').text().replace(/\t|\n/g, '');
-                    price = parseInt(priceText.slice(2, -3).replace(/[.]/g, ''))
-                }
+                // TODO: this code is for get the last price by lastUpdatedDate
+                // if (i === 0) {
+                //     lastPriceText = $(elem).find('.value').text().replace(/\t|\n/g, '');
+                //     lastPrice = parseInt(priceText.slice(2, -3).replace(/[.]/g, ''))
+                // }
 
                 if (i === 1) {
                     let plus = $(elem).find('.value').html()
                     let plusCheck = $(plus).hasClass('fa-caret-up')
                     priceChangesText = $(elem).find('.value').text().replace(/\t|\n/g, '');
-                    priceChanges = parseInt(priceChangesText.replace(/,/g, '').slice(2))
+                    priceChanges = parseInt(priceChangesText.replace(/,/g, '').replace('Rp', ''))
 
                     // change to minus
                     if (!plusCheck) {
@@ -30,21 +38,28 @@ module.exports = async () => {
                     }
                 }
                 if (i === 2) {
-                    date = $(elem).find('.value').text().replace(/\t|\n/g, '');
-                    dateISO = new Date(`${date} UTC`).toISOString();
+                    lastUpdatedDate = $(elem).find('.value').text().replace(/\t|\n/g, '');
+                    lastUpdatedDateISO = new Date(`${lastUpdatedDate} UTC`).toISOString();
                 }
-            });
-
+            })
+            $('#purchase .ctr').each((i, elem) => {
+                let textElement = $(elem).find('.item-1').html();
+                let label = $(textElement).find('.ngc-text').text().replace(/\t|\n/g, '');
+                let priceText = $(elem).find('.item-2').text().trim().split(' ')[1];
+                data.push({
+                    weigth: parseFloat(label.replace(',', '.').match(/[+-]?\d+(\.\d+)?/g)),
+                    priceText: `Rp. ${priceText}`,
+                    price: parseInt(priceText.replace(/,/g, ''), 10),
+                })
+            })
             // save to mongodb
-            const emas = new EmasPerak({
-                date,
-                dateISO,
-                priceChangesText,
-                priceChanges,
+            let emas = new EmasPerak({
+                title,
                 unit,
-                weight,
-                priceText,
-                price
+                lastUpdatedDate,
+                lastUpdatedDateISO,
+                priceChanges,
+                detail: data
             })
 
             try {

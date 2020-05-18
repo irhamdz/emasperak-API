@@ -1,14 +1,12 @@
 const mongoose = require('mongoose')
 
 const emasperakSchema = new mongoose.Schema({
-    date: {type: String, required: true},
-    dateISO: {type: Date, required: true},
-    priceChangesText: {type: String, required: true},
-    priceChanges: {type: Number, required: true},
+    title: {type: String, lowercase: true, trim: true, required: true},
     unit: {type: String, required: true},
-    weight: {type: Number, required: true},
-    priceText: {type: String, required: true},
-    price: {type: Number, required: true},
+    lastUpdatedDate: {type: String, required: true},
+    lastUpdatedDateISO: {type: Date, required: true},
+    priceChanges: {type: Number, required: true},
+    detail: {type: Array, "default": []},
 })
 
 module.exports = mongoose.model('EmasPerak', emasperakSchema)
