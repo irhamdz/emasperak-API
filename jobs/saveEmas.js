@@ -10,7 +10,7 @@ module.exports = async () => {
         .then(async (response) => {
             let html = response.data;
             let $ = cheerio.load(html);
-            let title = 'Emas',
+            let label = 'Emas',
                 unit = 'gram',
                 priceChangesText,
                 priceChanges,
@@ -34,7 +34,8 @@ module.exports = async () => {
 
                     // change to minus
                     if (!plusCheck) {
-                        priceChanges = -priceChanges
+                        priceChanges = -Math.abs(priceChanges);
+                        console.log(typeof (priceChanges), priceChanges);
                     }
                 }
                 if (i === 2) {
@@ -54,7 +55,7 @@ module.exports = async () => {
             })
             // save to mongodb
             let emas = new EmasPerak({
-                title,
+                label,
                 unit,
                 lastUpdatedDate,
                 lastUpdatedDateISO,
@@ -64,7 +65,7 @@ module.exports = async () => {
 
             try {
                 const newEmas = await emas.save()
-                console.log(`success save to db with id ${newEmas._id}`);
+                console.log(`success save emas data to db with id ${newEmas._id}`);
             } catch (err) {
                 console.log(err);
             }
