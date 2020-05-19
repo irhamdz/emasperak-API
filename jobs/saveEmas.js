@@ -34,7 +34,8 @@ module.exports = async () => {
 
                     // change to minus
                     if (!plusCheck) {
-                        priceChanges = -priceChanges
+                        priceChanges = -Math.abs(priceChanges);
+                        console.log(typeof (priceChanges), priceChanges);
                     }
                 }
                 if (i === 2) {
@@ -64,7 +65,7 @@ module.exports = async () => {
 
             try {
                 const newEmas = await emas.save()
-                console.log(`success save to db with id ${newEmas._id}`);
+                console.log(`success save emas data to db with id ${newEmas._id}`);
             } catch (err) {
                 console.log(err);
             }
