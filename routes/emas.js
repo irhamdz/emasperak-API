@@ -7,7 +7,7 @@ const EmasPerak = require('../models/emasperak')
 /* GET emas listing. */
 router.get('/', async (req, res, next) => {
     try {
-        const result = await EmasPerak.findOne({title: 'emas'}, '-_id -__v').sort('-_id')
+        const result = await EmasPerak.findOne({label: 'emas'}, '-_id -__v').sort('-_id')
         res.json(result);
     } catch (err) {
         res.status(500).json({message: err.message})

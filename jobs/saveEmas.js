@@ -10,7 +10,7 @@ module.exports = async () => {
         .then(async (response) => {
             let html = response.data;
             let $ = cheerio.load(html);
-            let title = 'Emas',
+            let label = 'Emas',
                 unit = 'gram',
                 priceChangesText,
                 priceChanges,
@@ -54,7 +54,7 @@ module.exports = async () => {
             })
             // save to mongodb
             let emas = new EmasPerak({
-                title,
+                label,
                 unit,
                 lastUpdatedDate,
                 lastUpdatedDateISO,
