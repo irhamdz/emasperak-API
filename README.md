@@ -30,7 +30,7 @@ Content-Type: application/json; charset=utf-8
 
 ### Task
 - [ ] Add docs (?)
-- [ ] Add perak API
+- [X] Add perak API
 - [ ] Add emas buyback API
 - [ ] Add perak buyback API
 - [ ] Deploy to openshift (?)
