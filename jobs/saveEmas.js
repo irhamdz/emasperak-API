@@ -2,8 +2,8 @@ const EmasPerak = require('../models/emasperak')
 const axios = require('axios');
 const cheerio = require('cheerio');
 
-module.exports = async () => {
-    console.log('started job save emas ...');
+const saveEmas = async () => {
+    console.log('started save emas job ...');
     let url = 'https://www.logammulia.com/id/purchase/gold';
 
     axios.get(url)
@@ -35,7 +35,6 @@ module.exports = async () => {
                     // change to minus
                     if (!plusCheck) {
                         priceChanges = -Math.abs(priceChanges);
-                        console.log(typeof (priceChanges), priceChanges);
                     }
                 }
                 if (i === 2) {
@@ -62,16 +61,39 @@ module.exports = async () => {
                 priceChanges,
                 detail: data
             })
-
-            try {
-                const newEmas = await emas.save()
-                console.log(`success save emas data to db with id ${newEmas._id}`);
-            } catch (err) {
-                console.log(err);
-            }
+            const newEmas = await emas.save()
+            console.log(`success save emas data to db with id ${newEmas._id}`);
+            // return {
+            //     status: 'success',
+            //     message: `success save emas data to db with id ${newEmas._id}`
+            // };
+            // try {
+            //     const newEmas = await emas.save()
+            //     return {
+            //         status: 'success',
+            //         message: `success save emas data to db with id ${newEmas._id}`
+            //     };
+            //     // console.log(successResponse);
+            // } catch (err) {
+            //     let errorJson = err.toJSON()
+            //     let errorResponse = {
+            //         status: 'error',
+            //         code: errorJson.code,
+            //         message: errorJson.message
+            //     }
+            //     console.log(errorResponse);
+            // }
         })
         .catch(function (error) {
             // handle error
-            console.log(error);
+            let errorJson = error.toJSON()
+            let errorResponse = {
+                status: 'error',
+                code: errorJson.code,
+                message: `error scrape emas - ${errorJson.message}`
+            }
+            console.log(errorResponse);
         })
 }
+
+module.exports = {saveEmas}

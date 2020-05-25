@@ -3,7 +3,7 @@ const axios = require('axios');
 const cheerio = require('cheerio');
 
 module.exports = async () => {
-    console.log('started job save perak ...');
+    console.log('started save perak job ...');
     const url = 'https://www.logammulia.com/';
     axios.get(url)
         .then(async (response) => {
@@ -21,13 +21,14 @@ module.exports = async () => {
             let data = [];
             $('.hero-price .child').each((i, elem) => {
                 if (i === 0) {
-                    lastUpdatedDate = $(elem).find('p').text().replace(/\t|\n/g, '').slice(21);
+                    lastUpdatedDate = $(elem).find('p').text().replace(/\t|\n/g, '').slice(20);
                     lastUpdatedDateISO = new Date(`${lastUpdatedDate} UTC`).toISOString();
                 }
 
                 if (i === 2) {
                     $(elem).find('.price span').each((i, elem) => {
                         if (i === 0) {
+                            console.log($(elem).text().split(' ')[1])
                             let priceText = $(elem).text().split(' ')[1]
                             data.push({
                                 weight: weight,
@@ -60,10 +61,22 @@ module.exports = async () => {
                 const newPerak = await perak.save()
                 console.log(`success save perak data to db with id ${newPerak._id}`);
             } catch (err) {
-                console.log(err);
+                let errorJson = err.toJSON()
+                let errorResponse = {
+                    status: 'error',
+                    code: errorJson.code,
+                    message: `error scrape perak - ${errorJson.message}`
+                }
+                console.log(errorResponse);
             }
         }).catch(function (error) {
         // handle error
-        console.log(error);
+        let errorJson = error.toJSON()
+        let errorResponse = {
+            status: 'error',
+            code: errorJson.code,
+            message: `error scrape perak - ${errorJson.message}`
+        }
+        console.log(errorResponse);
     })
 }
