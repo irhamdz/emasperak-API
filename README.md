@@ -26,6 +26,14 @@ Host: localhost:3000
 Content-Type: application/json; charset=utf-8
 ```
 
+##### Perak
+- Get last updated perak price:
+```http request
+GET /perak
+Host: localhost:3000
+Content-Type: application/json; charset=utf-8
+```
+
 ---
 
 ### Task

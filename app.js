@@ -1,14 +1,30 @@
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const connectDb = require('./config/db')
+const cron = require('node-cron');
+const EmasJob = require('./jobs/saveEmas')
+const savePerakJob = require('./jobs/savePerak')
+const dotenv = require('dotenv');
+const colors = require('colors')
 
-var indexRouter = require('./routes/index');
-var usersRouter = require('./routes/users');
-var emasRouter = require('./routes/emas');
+dotenv.config()
+
+connectDb();
+
+// schedule cron jobs
+const task = cron.schedule("5 * * * *", function () {
+    EmasJob.saveEmas();
+    savePerakJob();
+});
+
+const indexRouter = require('./routes/index');
+const usersRouter = require('./routes/users');
+const emasRouter = require('./routes/emas');
 const perakRouter = require('./routes/perak');
 
-var app = express();
+const app = express();
 
 app.use(logger('dev'));
 app.use(express.json());
