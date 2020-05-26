@@ -6,7 +6,7 @@ const saveEmas = async () => {
     console.log('started save emas job ...');
     let url = 'https://www.logammulia.com/id/purchase/gold';
 
-    axios.get(url)
+    await axios.get(url)
         .then(async (response) => {
             let html = response.data;
             let $ = cheerio.load(html);

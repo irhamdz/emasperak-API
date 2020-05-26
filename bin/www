@@ -7,8 +7,15 @@
 var app = require('../app');
 var debug = require('debug')('emasperak-api:server');
 var http = require('http');
+const cron = require('node-cron');
+const EmasJob = require('../jobs/saveEmas')
+const savePerakJob = require('../jobs/savePerak')
 
-
+// // schedule cron jobs
+// const task = cron.schedule("*/30 * * * *", function () {
+//     EmasJob.saveEmas();
+//     savePerakJob();
+// });
 /**
  * Get port from environment and store in Express.
  */

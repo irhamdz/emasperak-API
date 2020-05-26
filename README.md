@@ -41,7 +41,7 @@ Content-Type: application/json; charset=utf-8
 - [X] Add perak API
 - [ ] Add emas buyback API
 - [ ] Add perak buyback API
-- [ ] Deploy to openshift (?)
+- [X] Deploy to Google App Engine
 - [X] Add mongodb (via Mongo Atlas)
 - [ ] Add Redis
 

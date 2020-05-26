@@ -5,7 +5,7 @@ const cheerio = require('cheerio');
 module.exports = async () => {
     console.log('started save perak job ...');
     const url = 'https://www.logammulia.com/';
-    axios.get(url)
+    await axios.get(url)
         .then(async (response) => {
             let html = response.data;
             let $ = cheerio.load(html);
@@ -28,7 +28,6 @@ module.exports = async () => {
                 if (i === 2) {
                     $(elem).find('.price span').each((i, elem) => {
                         if (i === 0) {
-                            console.log($(elem).text().split(' ')[1])
                             let priceText = $(elem).text().split(' ')[1]
                             data.push({
                                 weight: weight,
@@ -57,18 +56,21 @@ module.exports = async () => {
                 detail: data
             })
 
-            try {
-                const newPerak = await perak.save()
-                console.log(`success save perak data to db with id ${newPerak._id}`);
-            } catch (err) {
-                let errorJson = err.toJSON()
-                let errorResponse = {
-                    status: 'error',
-                    code: errorJson.code,
-                    message: `error scrape perak - ${errorJson.message}`
-                }
-                console.log(errorResponse);
-            }
+            const newPerak = await perak.save()
+            console.log(`success save perak data to db with id ${newPerak._id}`);
+
+            // try {
+            //     const newPerak = await perak.save()
+            //     console.log(`success save perak data to db with id ${newPerak._id}`);
+            // } catch (err) {
+            //     let errorJson = err.toJSON()
+            //     let errorResponse = {
+            //         status: 'error',
+            //         code: errorJson.code,
+            //         message: `error scrape perak - ${errorJson.message}`
+            //     }
+            //     console.log(errorResponse);
+            // }
         }).catch(function (error) {
         // handle error
         let errorJson = error.toJSON()
@@ -78,5 +80,5 @@ module.exports = async () => {
             message: `error scrape perak - ${errorJson.message}`
         }
         console.log(errorResponse);
-    })
+    });
 }
