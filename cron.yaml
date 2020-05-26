@@ -1,0 +1,15 @@
+cron:
+  - description: "save emas data"
+    url: /api/scrapeEmas
+    schedule: every 30 mins
+    target: api
+    retry_parameters:
+      min_backoff_seconds: 3
+      max_doublings: 3
+  - description: "save perak data"
+    url: /api/scrapePerak
+    schedule: every 30 mins
+    target: api
+    retry_parameters:
+      min_backoff_seconds: 3
+      max_doublings: 3
