@@ -39,8 +39,11 @@ Content-Type: application/json; charset=utf-8
 ### Task
 - [ ] Add docs (?)
 - [X] Add perak API
-- [ ] Add emas buyback API
+- [X] Add emas buyback API
 - [ ] Add perak buyback API
+- [ ] Add another location other than pulogadung - jakarta
+- [ ] Add average indonesian inflation API
+- [ ] Add USD kurs API
 - [X] Deploy to Google App Engine
 - [X] Add mongodb (via Mongo Atlas)
 - [ ] Add Redis
