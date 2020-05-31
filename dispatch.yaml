@@ -1,0 +1,6 @@
+dispatch:
+  - url: "simpansaja.com/*"
+    service: default
+
+  - url: "api.simpansaja.com/*"
+    service: api

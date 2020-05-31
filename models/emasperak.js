@@ -6,6 +6,7 @@ const emasperakSchema = new mongoose.Schema({
     lastUpdatedDate: {type: String, required: true},
     lastUpdatedDateISO: {type: Date, required: true},
     priceChanges: {type: Number, required: true},
+    location: {type: String},
     detail: {type: Array, "default": []},
 })
 

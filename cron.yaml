@@ -13,3 +13,10 @@ cron:
     retry_parameters:
       min_backoff_seconds: 3
       max_doublings: 3
+  - description: "save emas buyback data"
+    url: /api/scrapeEmas/buyback
+    schedule: every 30 mins
+    target: api
+    retry_parameters:
+      min_backoff_seconds: 3
+      max_doublings: 3

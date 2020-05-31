@@ -5,7 +5,7 @@ const cheerio = require('cheerio');
 const EmasPerak = require('../models/emasperak')
 
 /* scrapes emas data and save to mongodb. */
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res) => {
     console.log('started save perak job ...');
     const url = 'https://www.logammulia.com/';
     await axios.get(url)
@@ -15,16 +15,14 @@ router.get('/', async (req, res, next) => {
             let label = 'Perak',
                 unit = 'gram',
                 weight = 1,
-                priceChangesText,
-                priceChanges,
-                lastUpdatedDate,
-                lastUpdatedDateISO,
-                lastPriceText,
-                lastPrice
-            let data = [];
+                priceChanges = 0,
+                lastUpdatedDate = '',
+                lastUpdatedDateISO = '',
+                location = '',
+                data = [];
             $('.hero-price .child').each((i, elem) => {
                 if (i === 0) {
-                    lastUpdatedDate = $(elem).find('p').text().replace(/\t|\n/g, '').slice(20);
+                    lastUpdatedDate = $(elem).find('p').text().replace(/[\t\n]/g, '').slice(20);
                     lastUpdatedDateISO = new Date(`${lastUpdatedDate} UTC`).toISOString();
                 }
 
@@ -41,12 +39,20 @@ router.get('/', async (req, res, next) => {
                         }
                         let pluscheck = $(elem).html()
                         if (i === 1) {
-                            priceChanges = parseInt($(elem).text().replace(/\t|\n/g, '').slice(2));
+                            priceChanges = parseInt($(elem).text().replace(/[\t\n]/g, '').slice(2));
                             if (!$(pluscheck).hasClass('fa-caret-up')) {
                                 priceChanges = -Math.abs(priceChanges);
                             }
                         }
                     });
+                }
+
+                if (i === 3) {
+                    location = $(elem).find('p .text').text().toLowerCase();
+                    let jakarta = ['pulo gadung', 'gedung antam', 'menara ravindo', 'mall ambasador'];
+                    if (new RegExp(jakarta.join("|")).test(location)) {
+                        location = `${location}, jakarta`
+                    }
                 }
             })
 
@@ -56,6 +62,7 @@ router.get('/', async (req, res, next) => {
                 lastUpdatedDate,
                 lastUpdatedDateISO,
                 priceChanges,
+                location,
                 detail: data
             })
 
@@ -68,8 +75,13 @@ router.get('/', async (req, res, next) => {
             res.json(successResponse);
         }).catch(function (error) {
             // handle error
-            console.error(error);
-            res.status(500).json(error);
+            let errorResponse = {
+                status: 'error',
+                code: error.code | 500,
+                message: `error scrape perak - ${error.message}`
+            }
+            console.log(errorResponse);
+            res.status(500).send(errorResponse);
         });
 });
 
