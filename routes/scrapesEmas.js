@@ -36,7 +36,9 @@ router.get('/', async (req, res) => {
 
                     // change to minus
                     if (!plusCheck) {
-                        priceChanges = -Math.abs(priceChanges);
+                        if (Math.abs(priceChanges) !== 0) {
+                            priceChanges = -Math.abs(priceChanges);
+                        }
                     }
                 }
                 if (i === 2) {
@@ -47,7 +49,9 @@ router.get('/', async (req, res) => {
             $('#purchase .ctr').each((i, elem) => {
                 let textElement = $(elem).find('.item-1').html();
                 let label = $(textElement).find('.ngc-text').text().replace(/\t|\n/g, '');
-                let priceText = $(elem).find('.item-2').text().trim().split(' ')[1];
+                let elementPrice = $(elem).find('.item-2').text().trim()
+                let priceTextIndex = elementPrice.search('Rp');
+                let priceText = elementPrice.slice(priceTextIndex).split(' ')[1]
                 data.push({
                     weigth: parseFloat(label.replace(',', '.').match(/[+-]?\d+(\.\d+)?/g)),
                     priceText: `Rp. ${priceText}`,
@@ -72,13 +76,23 @@ router.get('/', async (req, res) => {
                 detail: data
             })
 
-            const newEmas = await emas.save()
-            let successResponse = {
-                status: 'success',
-                message: `success save emas data to db with id ${newEmas._id}`
+            if (isNaN(emas.detail[0].price)) {
+                let errorResponse = {
+                    status: 'error',
+                    code: error.code | 500,
+                    message: `error scrape emas , message : price error`
+                }
+                console.log(errorResponse);
+                res.status(500).send(errorResponse);
+            } else {
+                const newEmas = await emas.save()
+                let successResponse = {
+                    status: 'success',
+                    message: `success save emas data to db with id ${newEmas._id}`
+                }
+                console.info(successResponse.message);
+                res.json(successResponse);
             }
-            console.info(successResponse.message);
-            res.json(successResponse);
         })
         .catch(function (error) {
             // handle error

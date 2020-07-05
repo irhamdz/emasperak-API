@@ -16,6 +16,7 @@ const emasRouter = require('./routes/emas');
 const perakRouter = require('./routes/perak');
 const scrapeEmas = require('./routes/scrapesEmas');
 const scrapePerak = require('./routes/scrapesPerak');
+const scrapeInflation = require('./routes/scrapeInflation')
 
 const app = express();
 
@@ -25,11 +26,12 @@ app.use(express.urlencoded({extended: false}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/api/', indexRouter);
-app.use('/api/users', usersRouter);
-app.use('/api/emas', emasRouter);
-app.use('/api/perak', perakRouter);
-app.use('/api/scrapeEmas', scrapeEmas);
-app.use('/api/scrapePerak', scrapePerak);
+app.use('/', indexRouter);
+app.use('/users', usersRouter);
+app.use('/emas', emasRouter);
+app.use('/perak', perakRouter);
+app.use('/scrapeEmas', scrapeEmas);
+app.use('/scrapePerak', scrapePerak);
+app.use('/scrapeInflation', scrapeInflation);
 
 module.exports = app;
