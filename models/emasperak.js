@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const emasperakSchema = new mongoose.Schema({
+const emasPerakSchema = new mongoose.Schema({
     label: {type: String, lowercase: true, trim: true, required: true},
     unit: {type: String, required: true},
     lastUpdatedDate: {type: String, required: true},
@@ -10,4 +10,4 @@ const emasperakSchema = new mongoose.Schema({
     detail: {type: Array, "default": []},
 })
 
-module.exports = mongoose.model('EmasPerak', emasperakSchema)
+module.exports = mongoose.model('EmasPerak', emasPerakSchema)

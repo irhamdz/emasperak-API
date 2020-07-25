@@ -14,9 +14,13 @@ const indexRouter = require('./routes/index');
 const usersRouter = require('./routes/users');
 const emasRouter = require('./routes/emas');
 const perakRouter = require('./routes/perak');
+const currency = require('./routes/currency');
+
+// scrape
 const scrapeEmas = require('./routes/scrapesEmas');
 const scrapePerak = require('./routes/scrapesPerak');
-const scrapeInflation = require('./routes/scrapeInflation')
+const scrapeInflation = require('./routes/scrapeInflation');
+const scrapeKurs = require('./routes/scrapeKursDunia')
 
 const app = express();
 
@@ -30,8 +34,12 @@ app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/emas', emasRouter);
 app.use('/perak', perakRouter);
+app.use('/currency', currency);
+
+// scrape
 app.use('/scrapeEmas', scrapeEmas);
 app.use('/scrapePerak', scrapePerak);
 app.use('/scrapeInflation', scrapeInflation);
+app.use('/scrapeKurs', scrapeKurs);
 
 module.exports = app;
