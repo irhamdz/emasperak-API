@@ -27,7 +27,7 @@
     "express": "4.17.1",
     "mongoose": "5.11.15",
     "morgan": "1.10.0",
-    "node-cron": "2.0.3"
+    "node-cron": "3.0.3"
   },
   "devDependencies": {
     "nodemon": "2.0.4"
